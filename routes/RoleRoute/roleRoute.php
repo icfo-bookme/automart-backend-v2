@@ -26,7 +26,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::group(['middleware' => 'hasAccess','auth'], function () {
-    Route::get('/admin', 'HomeController@index')->name('home');
+    Route::get('/', 'HomeController@index')->name('home');
+     Route::get('/admin', 'HomeController@index')->name('home');
     Route::get('/admin/roleInsert', 'admin\role\RoleController@index');
     Route::get('/admin/rolesView', 'admin\role\RoleController@rolesView');
     Route::get('/admin/rolesAssign', 'admin\role\RoleController@rolesAssign');
