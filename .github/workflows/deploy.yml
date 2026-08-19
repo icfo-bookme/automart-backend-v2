@@ -11,12 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install sshpass & rsync
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y sshpass rsync
-
-      # 1. Code upload (PHP 7.4 automart-backend-v2 folder)
+      # 1. Code upload (অপ্রয়োজনীয় apt-get update বাদ দেওয়া হয়েছে)
       - name: Upload code to server
         env:
           HOST: ${{ secrets.DEPLOY_HOST }}
@@ -58,12 +53,12 @@ jobs:
             sudo chown -R www-data:www-data /var/www/automart-backend-v2
             sudo chmod -R 775 /var/www/automart-backend-v2/storage /var/www/automart-backend-v2/bootstrap/cache
 
-            # Laravel Cache Clear & Optimization
+            # Laravel Cache Clear
             sudo -u www-data php7.4 artisan optimize:clear
             sudo -u www-data php7.4 artisan config:cache
-            sudo -u www-data php7.4 artisan route:cache
+            sudo -u www-data php7.4 artisan route:clear
             sudo -u www-data php7.4 artisan view:cache
 
-            # Reload Services (Safe deployment)
+            # Service Reload
             sudo systemctl reload php7.4-fpm
             sudo systemctl reload nginx
